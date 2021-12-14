@@ -10,11 +10,6 @@ import SwiftUI
 struct MissionView: View {
     @State private var rotationAmount = 0.0
     
-    struct CrewMember {
-        let role: String
-        let astronaut: Astronaut
-    }
-    
     let mission: Mission
     let crew: [CrewMember]
     
@@ -51,36 +46,7 @@ struct MissionView: View {
                     }
                     .padding(.horizontal)
                     
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(crew, id: \.role) { crewMember in
-                                NavigationLink {
-                                    AstronautView(astronaut: crewMember.astronaut)
-                                } label: {
-                                    HStack {
-                                        VStack {
-                                        Image(crewMember.astronaut.id)
-                                            .resizable()
-                                            .clipShape(Circle())
-                                            .frame(width: 200, height: 150)
-                                            .padding(.horizontal)
-                                            .overlay {
-                                                Circle()
-                                                    .strokeBorder(crewMember.role == "Commander" ? .yellow : .white, lineWidth: 3)
-                                            }
-                                        
-                                            Text(crewMember.astronaut.name)
-                                                .font(.headline)
-                                                .foregroundColor(.white)
-                                            Text(crewMember.role)
-                                                .foregroundColor(crewMember.role == "Commander" ? .primary : .secondary)
-                                        }
-                                    }
-                                    .padding(.top)
-                                }
-                            }
-                        }
-                    }
+                    CrewScrollingView(mission: mission, crew: crew)
                 }
                 .padding(.bottom)
             }
